@@ -1,78 +1,97 @@
-#include<vector>
-#include<string>
-#include<iostream>
-#include<fstream>
-#include<sstream>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
-#include<nlohmann/json.hpp>
+#include <nlohmann/json.hpp>
 
-#include<abstractions/wallet/proto.hpp>
+#include <abstractions/wallet/proto.hpp>
 
-#include<bitcoin/node.hpp>
+#include <bitcoin/node/configuration.hpp>
 
-template <typename X>
-using vector = const std::vector<X>;
+#include "types.hpp"
+#include "options.hpp"
 
-using string = std::string;
-
-namespace fail {
-    const string help = "Provide a single file name as input.";
-    
-    string cannot_read_file(string filename) {
-        return "Cannot read " + filename + ". ";
-    }
-    
-    string cannot_write_file(string filename) {
-        return "Cannot write to " + filename + ". ";
-    }
-    
-    string invalid_format(string filename) {
-        return "Invalid format in " + filename + ". ";
+namespace abstractions {
+    namespace wallet {
+        const satoshi dust = 0; // TODO
     }
 }
 
-using json = nlohmann::json;
+namespace radix {
 
-string read_file_as_string(string filepath) {
-    std::ifstream ifs{filepath.c_str(), std::ifstream::in};
-    if (!ifs.is_open()) return "";
-    std::stringstream sstr;
-    sstr << ifs.rdbuf();
-    return sstr.str();
-}
+    string run_libbitcoin_node(libbitcoin::node::configuration config);
+    
+    string concatinate() { return ""; }
+    
+    string concatinate(string s) { return s; }
+    
+    template <typename first>
+    void attach(std::ostringstream& x, first s) {
+        x << s;
+    }
+    
+    template <typename first, typename... rest>
+    void attach(std::ostringstream& x, first f, rest... a) {
+        x << f;
+        attach<rest...>(x, a...);
+    }
+    
+    template <typename... args>
+    string concatinate(args... a) {
+        std::ostringstream x{};
+        attach(x, a...);
+        return x.str();
+    }
 
-using wallet = abstractions::wallet::proto;
+    namespace fail {
+        const string help = "Provide a single file name as input.";
+        
+        string cannot_read_file(filepath path) {
+            return concatinate("Cannot read ", path.native(), ". ");
+        }
+        
+        string cannot_write_file(filepath path) {
+            return concatinate("Cannot write to ", path.native(), ". ");
+        }
+        
+        string invalid_format(filepath path) {
+            return concatinate("Invalid format in ", path.native(), ". ");
+        }
+    }
 
-wallet restore_wallet(json);
+    using json = nlohmann::json;
 
-json save_wallet(wallet);
+    string read_file_as_string(filepath path) {
+        std::ifstream ifs{path.c_str(), std::ifstream::in};
+        if (!ifs.is_open()) return std::string("");
+        std::stringstream sstr;
+        sstr << ifs.rdbuf();
+        return sstr.str();
+    }
 
-string radix_proto_main(vector<string> opts) {
-    if (opts.size() != 1) return fail::help;
-    string input_filepath = opts[0];
-    string output_filepath = input_filepath + ".next";
-    
-    std::ofstream output_file(output_filepath);
-    if (!output_file.is_open()) return fail::cannot_read_file(output_filepath);
-    
-    string input_string = read_file_as_string(input_filepath);
-    if (input_string == "") return fail::cannot_read_file(input_filepath);
-    
-    json input_json = json::parse(input_string);
-    
-    wallet w = restore_wallet(input_json);
-    
-    output_file << save_wallet(w).dump();
-    
-    return "";
-};
+    using wallet = abstractions::wallet::proto;
 
-vector<string> read_options(int argc, char *argv[]) {
-    std::vector<std::string> options{static_cast<size_t>(argc)};
-    for (int i = 0; i < argc; i ++) options[i] = std::string(argv[i]);
-    return options;
+    wallet restore_wallet(json);
+
+    json save_wallet(wallet);
+
+    string main(options opts) {
+        /*if (!output_file.is_open()) return fail::cannot_read_file(opts.OutputWalletPath);
+        
+        string input_string = read_file_as_string(opts.InputWalletPath);
+        if (input_string == "") return fail::cannot_read_file(opts.InputWalletPath);
+        
+        json input_json = json::parse(input_string);
+        
+        wallet w = restore_wallet(input_json);
+        
+        output_file << save_wallet(w).dump();*/
+        
+        return "";
+    };
+
 }
  
 int main(int argc, char *argv[]){
-    return radix_proto_main(read_options(argc, argv)) == "" ? 0 : 1;
+    return radix::main(radix::read_options(argc, argv)) == "" ? 0 : 1;
 }
