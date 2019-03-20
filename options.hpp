@@ -11,11 +11,9 @@ namespace radix {
         filepath InputWalletPath;
         filepath OutputWalletPath;
         filepath BlockchainDatabasePath;
-    } default_options{};
+    };
     
-    options read_options(int argc, char *argv[]) {
-        return {};
-    }
+    options read_options(int argc, char *argv[]);
     
 }
 

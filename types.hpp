@@ -13,6 +13,9 @@ namespace radix {
     using string = std::string;
     
     using filepath = boost::filesystem::path;
+    
+    template <typename X>
+    using ptr = std::shared_ptr<X>;
 
 }
 
