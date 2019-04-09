@@ -32,6 +32,61 @@ add_executable(radix
     options.cpp
     
     ../wallet-abstractions/src/abstractions/wallet/wallet.cpp
+
+    #put consensus critical files here. 
+    
+    ../../libbitcoin/libbitcoin-blockchain/src/interface/block_chain.cpp
+    
+    ../../libbitcoin/libbitcoin-blockchain/src/organizers/organize_header.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/organizers/organize_block.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/organizers/organize_transaction.cpp
+    
+    ../../libbitcoin/libbitcoin-blockchain/src/validate/validate_block.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/validate/validate_header.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/validate/validate_input.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/validate/validate_transaction.cpp
+    
+    ../../libbitcoin/libbitcoin-blockchain/src/populate/populate_base.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/populate/populate_block.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/populate/populate_chain_state.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/populate/populate_header.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/populate/populate_transaction.cpp
+    
+    ../../libbitcoin/libbitcoin-blockchain/src/pools/block_pool.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/pools/block_entry.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/pools/header_entry.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/pools/header_pool.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/pools/header_branch.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/pools/transaction_entry.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/pools/transaction_pool.cpp
+    
+    ../../libbitcoin/libbitcoin-blockchain/src/pools/utilities/anchor_converter.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/pools/utilities/child_closure_calculator.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/pools/utilities/conflicting_spend_remover.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/pools/utilities/priority_calculator.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/pools/utilities/parent_closure_calculator.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/pools/utilities/stack_evaluator.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/pools/utilities/transaction_order_calculator.cpp
+    ../../libbitcoin/libbitcoin-blockchain/src/pools/utilities/transaction_pool_state.cpp
+    
+    ../../libbitcoin/libbitcoin-blockchain/src/settings.cpp
+    
+    ../../libbitcoin/libbitcoin-node/src/protocols/protocol_block_in.cpp
+    ../../libbitcoin/libbitcoin-node/src/protocols/protocol_header_in.cpp
+    ../../libbitcoin/libbitcoin-node/src/protocols/protocol_transaction_in.cpp
+    ../../libbitcoin/libbitcoin-node/src/protocols/protocol_transaction_out.cpp
+    
+    ../../libbitcoin/libbitcoin-node/src/utility/check_list.cpp
+    ../../libbitcoin/libbitcoin-node/src/utility/performance.cpp
+    ../../libbitcoin/libbitcoin-node/src/utility/reservation.cpp
+    ../../libbitcoin/libbitcoin-node/src/utility/reservations.cpp
+    
+    ../../libbitcoin/libbitcoin-node/src/sessions/session_inbound.cpp
+    ../../libbitcoin/libbitcoin-node/src/sessions/session_manual.cpp
+    ../../libbitcoin/libbitcoin-node/src/sessions/session_outbound.cpp
+    
+    ../../libbitcoin/libbitcoin-node/src/full_node.cpp
+    ../../libbitcoin/libbitcoin-node/src/settings.cpp
 )
 
 #target_link_libraries(abstractions ${LIBBITCOIN_LIBRARIES})
@@ -41,4 +96,5 @@ target_link_libraries(radix ${Boost_LIBRARIES})
 target_link_libraries(radix libsecp256k1.so)
 target_link_libraries(radix libbitcoin-system.so)
 target_link_libraries(radix libbitcoin-network.so)
+target_link_libraries(radix libbitcoin-database.so)
 target_compile_options(radix PUBLIC -fext-numeric-literals)

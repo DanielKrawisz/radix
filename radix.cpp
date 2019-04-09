@@ -6,7 +6,7 @@
 
 #include <abstractions/wallet/proto.hpp>
 
-//#include <bitcoin/node/configuration.hpp>
+#include <bitcoin/node/configuration.hpp>
 
 #include "types.hpp"
 #include "options.hpp"
