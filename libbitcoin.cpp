@@ -12,7 +12,7 @@ namespace radix {
     }
     
     string run_libbitcoin_node(libbitcoin::node::configuration config) {
-        // TODO check if directory exists. 
+        // TODO check if directory exists. yom!
         
         using node = libbitcoin::node::full_node;
         
