@@ -20,16 +20,19 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../../libbitcoin/secp256k1/incl
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../../libbitcoin/libbitcoin-system/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../../libbitcoin/libbitcoin-database/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../../libbitcoin/libbitcoin-network/include")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../../libbitcoin/libbitcoin-consensus/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../../libbitcoin/libbitcoin-blockchain/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../../libbitcoin/libbitcoin-node/include")
 
 find_package (Threads)
 
+add_compile_definitions(WITH_CONSENSUS)
+
 add_executable(radix
 
-    radix.cpp
-    libbitcoin.cpp
-    options.cpp
+    src/radix.cpp
+    src/libbitcoin.cpp
+    src/options.cpp
     
     ../wallet-abstractions/src/abstractions/wallet/wallet.cpp
 
@@ -97,4 +100,5 @@ target_link_libraries(radix libsecp256k1.so)
 target_link_libraries(radix libbitcoin-system.so)
 target_link_libraries(radix libbitcoin-network.so)
 target_link_libraries(radix libbitcoin-database.so)
+target_link_libraries(radix libbitcoin-consensus.so)
 target_compile_options(radix PUBLIC -fext-numeric-literals)
