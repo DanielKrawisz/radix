@@ -11,22 +11,7 @@
 
 #include "types.hpp"
 #include "options.hpp"
-#include "command.hpp"
-
-#define BN_NODE_STARTING \
-    "Please wait while the node is starting..."
-#define BN_NODE_START_FAIL \
-    "Node failed to start with error, %1%."
-#define BN_NODE_SEEDED \
-    "Seeding is complete."
-#define BN_NODE_STARTED \
-    "Node is started."
-#define BN_NODE_STOPPING \
-    "Please wait while the node is stopping..."
-#define BN_NODE_STOP_FAIL \
-    "Node failed to stop properly, see log."
-#define BN_NODE_STOPPED \
-    "Node stopped successfully."
+#include "command.hpp" 
 
 namespace radix {
     
@@ -60,10 +45,6 @@ namespace radix {
         code stop();
     
     };
-    
-    output command_run(options);
-    
-    code run_libbitcoin_node(libbitcoin::node::configuration config);
     
 }
 

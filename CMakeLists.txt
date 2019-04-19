@@ -33,8 +33,11 @@ add_executable(radix
     src/radix.cpp
     src/libbitcoin.cpp
     src/options.cpp
+    src/command.cpp
     
     ../wallet-abstractions/src/abstractions/wallet/wallet.cpp
+    
+    ../data/src/data/map/rb.cpp
 
     #put consensus critical files here. 
     

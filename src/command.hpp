@@ -5,23 +5,48 @@
 #include "options.hpp"
 
 namespace radix {
+    
+    program_output do_help(const list<string>, const options);
+    
+    program_output do_version(const list<string>, const options);
+    
+    program_output do_run(const list<string>, const options);
+    
+    program_output do_apply(const list<string>, const options);
+    
+    struct command {
         
-    enum command {
-        error = 0,
-        help = 1, 
-        version = 2,
-        run = 3, 
+        using function = program_output (*)(const list<string>, const options);
+        
+        enum name {
+            error = 0,
+            help = 1, 
+            version = 2,
+            run = 3, 
+            apply = 4, 
+        };
+        
+        static function from_name(name n);
+        
+        name Name;
+        
+        const list<string> Arguments;
+        
+        const options Options;
+        
+        program_output execute() const {
+            function f = from_name(Name);
+            if (f == nullptr) return {true, "Unrecognized command"};
+            return f(Arguments, Options);
+        }
+        
+        static const command read(data::program::input);
+    
     };
     
-    command read_command(string);
-    
-    output do_help(options);
-    
-    output do_version(options);
-    
-    output do_run(options);
-        
-    output execute(command, options);
+    inline program_output execute(data::program::input arg) {
+        return command::read(arg).execute();
+    }
     
 }
 

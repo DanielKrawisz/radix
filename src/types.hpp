@@ -5,8 +5,11 @@
 #include <string>
 #include <boost/filesystem.hpp>
 #include <data/io/main.hpp>
+#include <data/io/unimplemented.hpp>
 #include <data/list/linked_list.hpp>
 #include <data/map/rb.hpp>
+#include <data/crypto/secp256k1.hpp>
+#include <abstractions/key.hpp>
 
 namespace radix {
 
@@ -17,7 +20,7 @@ namespace radix {
     
     using filepath = boost::filesystem::path;
     
-    using output = const data::output;
+    using program_output = data::program::output;
     
     using ostream = std::ostream;
     using istream = std::istream;
@@ -30,6 +33,11 @@ namespace radix {
     
     template <typename X, typename Y>
     using map = data::rb_map<X, Y>;
+    
+    using pubkey = abstractions::key::pubkey_claim<data::secp256k1::secret, data::secp256k1::pubkey>;
+    using secret = abstractions::key::pair<data::secp256k1::secret, data::secp256k1::pubkey>;
+    
+    using unimplemented = data::method::unimplemented;
 
 }
 

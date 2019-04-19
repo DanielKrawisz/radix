@@ -1,11 +1,25 @@
 #include "libbitcoin.hpp"
 
+#define BN_NODE_STARTING \
+    "Please wait while the node is starting..."
+#define BN_NODE_START_FAIL \
+    "Node failed to start with error, %1%."
+#define BN_NODE_SEEDED \
+    "Seeding is complete."
+#define BN_NODE_STARTED \
+    "Node is started."
+#define BN_NODE_STOPPING \
+    "Please wait while the node is stopping..."
+#define BN_NODE_STOP_FAIL \
+    "Node failed to stop properly, see log."
+#define BN_NODE_STOPPED \
+    "Node stopped successfully."
+
 namespace radix {
     
     // Manage the race between console stop and server stop.
     void node_manager::stop(const code& ec) {
-        static std::once_flag stop_mutex;
-        std::call_once(stop_mutex, [&](){ ExitResponse.set_value(ec); });
+        throw unimplemented{}; // TODO
     }
 
     // This is the end of the run sequence.
@@ -45,13 +59,13 @@ namespace radix {
                 this, std::placeholders::_1));
     }
         
-    code node_manager::run(){
+    /*code node_manager::start(){
         
         LOG_INFO(LOG_NODE) << BN_NODE_STARTING;
         
         // The callback may be returned on the same thread.
         Node->start(
-            std::bind(&libbitcoin_node_manager::handle_started,
+            std::bind(&node_manager::handle_started,
                 this, std::placeholders::_1));
 
         // Wait for stop.
@@ -68,18 +82,7 @@ namespace radix {
             
         }
     
-    };
-    
-    output command_run(options) {
-        
-    }
-    
-    code run_libbitcoin_node(libbitcoin::node::configuration config) {
-        // TODO check if directory exists. yom!
-        
-        // Now that the directory is verified we can create the node for it.
-        return libbitcoin_node_manager{config}.run();
-    }
+    };*/
     
 }
 

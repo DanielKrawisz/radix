@@ -10,7 +10,6 @@
 
 #include <abstractions/wallet/proto.hpp>
 
-#include "types.hpp"
 #include "options.hpp"
 #include "user_messages.hpp"
 #include "command.hpp"
@@ -27,14 +26,52 @@ namespace radix {
 
     string read_file_as_string(std::ifstream& file);
 
-    using wallet = abstractions::wallet::proto;
+    using wallet = const abstractions::wallet::proto;
 
-    wallet restore_wallet(json);
+    wallet restore_wallet(const json);
 
-    json save_wallet(wallet);
+    json save_wallet(const wallet);
+    
+    void print(const wallet, ostream&);
+    
+    wallet import_key(const wallet, const secret);
+    
+    //transaction sign_transaction(const wallet, const transaction);
 
     template <typename f>
-    output manage_wallet(f fun, options opts);
+    program_output manage_wallet(f fun, const options opts);
+    
+    namespace instruction {
+        
+        struct print {
+            ostream& Out;
+            
+            wallet operator()(const wallet w) {
+                radix::print(w, Out);
+                return w;
+            }
+        };
+    
+        struct import_key {
+            ostream& Out;
+            secret Secret;
+            
+            wallet operator()(const wallet w) {
+                wallet imported = radix::import_key(w, Secret);
+                radix::print(imported, Out);
+                return imported;
+            };
+        
+        };
+    
+    }
+    
+    struct manager {
+        wallet Wallet; 
+        options Options;
+            
+        program_output operator()(list<string> instruction);
+    };
 
 }
 

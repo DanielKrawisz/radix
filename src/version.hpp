@@ -5,7 +5,7 @@
 
 namespace radix {
     
-    constexpr string Version = "Radix Wallet version negative infinity.";
+    const string Version = "Radix Wallet version negative infinity.";
     
     inline void print_version(ostream& out) {
         out << Version;
